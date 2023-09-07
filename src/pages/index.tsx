@@ -1,13 +1,110 @@
 import { SignIn, SignInButton, SignOutButton, UserButton, useUser } from "@clerk/clerk-react";
 import Head from "next/head";
 import Link from "next/link";
+import { useState } from "react";
+import { date } from "zod";
+import Image from "next/image";
 
-import { api } from "~/utils/api";
+
+import { RouterOutputs, api } from "~/utils/api";
+
+const CreatePostWizard = () => {
+  
+  const {user} = useUser();
+  console.log(user);
+  
+  
+  const [input, setInput] = useState("");
+  
+const ctx = api.useContext();
+
+
+const {mutate, isLoading : isPosting} = api.post.create.useMutation({
+  onSuccess: () =>{
+  setInput("")
+  void ctx.post.getAll.invalidate()
+}
+}
+);
+
+
+
+if (!user) return null;
+
+
+
+return (<div >
+  
+  
+  <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
+  <input
+        placeholder="Content"
+        className="grow bg-transparent outline-none"
+        type="text"
+        value= {input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (input !== "") {
+              mutate({ content: input });
+            }
+          }
+        }}
+        disabled={isPosting}
+        />
+ <button onClick={() => mutate({content : input})} >Post</button>
+</div>
+</div> 
+);
+
+};
+
+type PostWithUser = RouterOutputs["post"]["getAll"][number]
+
+
+const PostView = (props: PostWithUser) => {
+  const { post, author } = props;
+  console.log(author);
+  return (
+    <div key={post.id} className="border-b border-slate-400 p-8">
+              <Image className="h-14 w-14 rounded-full" src={author.profilePicture}   width={56} height={56} alt="" />
+              {post.content}
+              <span>  @{author?.username || author?.fullname}</span>
+            </div>
+  );
+
+}
+const Feed = () => {
+  const {data, isLoading: postsLoading } = api.post.getAll.useQuery();
+
+  if (postsLoading) return <div>loading</div>;
+ 
+
+  if (!data) return <div>Something went wrong</div>
+
+
+  return (
+    <div className="flex grow flex-col overflow-y-scroll">
+      {[...data].map((fullPost) => (
+        <PostView {...fullPost} key={fullPost.post.id} />
+      ))}
+    </div>
+  )
+
+}
+
+
+
+
+
+
 
 export default function Home() {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   const user = useUser();
+
+  const { data } = api.post.getAll.useQuery();
 
   return (
     <>
@@ -24,6 +121,14 @@ export default function Home() {
               <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
               </a>
         </div>
+        <div>
+          {data?.map((post) => (<div key={post.post.id}>{post.post.content}</div>))}
+        </div>
+        <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
+  
+<CreatePostWizard />
+</div>
+
       </main>
     </>
   );
