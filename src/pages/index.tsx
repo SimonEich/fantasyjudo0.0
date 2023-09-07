@@ -3,7 +3,6 @@ import Head from "next/head";
 import Link from "next/link";
 import { useState } from "react";
 import { date } from "zod";
-import Image from "next/image";
 
 
 import { RouterOutputs, api } from "~/utils/api";
@@ -26,7 +25,6 @@ const {mutate, isLoading : isPosting} = api.post.create.useMutation({
 }
 }
 );
-
 
 
 if (!user) return null;
@@ -68,7 +66,6 @@ const PostView = (props: PostWithUser) => {
   console.log(author);
   return (
     <div key={post.id} className="border-b border-slate-400 p-8">
-              <Image className="h-14 w-14 rounded-full" src={author.profilePicture}   width={56} height={56} alt="" />
               {post.content}
               <span>  @{author?.username || author?.fullname}</span>
             </div>
@@ -127,6 +124,7 @@ export default function Home() {
         <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
   
 <CreatePostWizard />
+<Feed/>
 </div>
 
       </main>
