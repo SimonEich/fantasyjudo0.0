@@ -108,7 +108,6 @@ export default function Home() {
   const user = useUser();
 
   const { data } = api.post.getAll.useQuery();
-  const hello = api.test.hello.useQuery({ text: "from my tRPC and the world" });
 
 console
 
@@ -134,9 +133,7 @@ console
         <CreatePostWizard />
         <Feed/>
       
-        <p className="text-2xl text-white">
-              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
-        </p>
+        
         </div>
         
 
