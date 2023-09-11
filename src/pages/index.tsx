@@ -4,7 +4,6 @@ import Link from "next/link";
 import { Input } from "postcss";
 import { useState } from "react";
 import { date } from "zod";
-import { NoteCard } from "~/components/NoteCard";
 
 
 import { RouterOutputs, api } from "~/utils/api";
