@@ -21,3 +21,14 @@ model Post {
   @@index([authorId])  
 
 }
+
+model Test {
+  id              String    @id @default(cuid())
+  createdAt       DateTime  @default(now())
+  authorId        String
+  content         String
+   
+
+  @@index([authorId])  
+
+}
