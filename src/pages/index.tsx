@@ -1,27 +1,30 @@
 import { SignIn, SignInButton, SignOutButton, UserButton, useUser } from "@clerk/clerk-react";
 import Head from "next/head";
 import Link from "next/link";
+import { Input } from "postcss";
 import { useState } from "react";
 import { date } from "zod";
+import { NoteCard } from "~/components/NoteCard";
 
 
 import { RouterOutputs, api } from "~/utils/api";
 
 const CreatePostWizard = () => {
-  
+  const {data} = api.test.getAll.useQuery();
   const {user} = useUser();
-  console.log(user);
+  console.log(data)
   
+
   
   const [input, setInput] = useState("");
   
 const ctx = api.useContext();
 
 
-const {mutate, isLoading : isPosting} = api.post.create.useMutation({
+const {mutate, isLoading : isPosting} = api.test.create.useMutation({
   onSuccess: () =>{
   setInput("")
-  void ctx.post.getAll.invalidate()
+  void ctx.test.getAll.invalidate()
 }
 }
 );
@@ -35,6 +38,9 @@ return (<div >
   
   
   <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
+  <div>
+  {data?.map((test) => (<div key={test.test.id}>{test.test.content}</div>))}
+    </div>
   <input
         placeholder="Content"
         className="grow bg-transparent outline-none"
@@ -51,6 +57,7 @@ return (<div >
         }}
         disabled={isPosting}
         />
+        
  <button onClick={() => mutate({content : input})} >Post</button>
 </div>
 </div> 
@@ -102,6 +109,9 @@ export default function Home() {
   const user = useUser();
 
   const { data } = api.post.getAll.useQuery();
+  const hello = api.test.hello.useQuery({ text: "from my tRPC and the world" });
+
+console
 
   return (
     <>
@@ -122,10 +132,14 @@ export default function Home() {
           {data?.map((post) => (<div key={post.post.id}>{post.post.content}</div>))}
         </div>
         <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
-  
-<CreatePostWizard />
-<Feed/>
-</div>
+        <CreatePostWizard />
+        <Feed/>
+      
+        <p className="text-2xl text-white">
+              {hello.data ? hello.data.greeting : "Loading tRPC query..."}
+        </p>
+        </div>
+        
 
       </main>
     </>
