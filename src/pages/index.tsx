@@ -8,10 +8,15 @@ import { date } from "zod";
 
 import { RouterOutputs, api } from "~/utils/api";
 
-const CreatePostWizard = () => {
+
+
+
+const CreateTestWizard = () => {
   const {data} = api.test.getAll.useQuery();
   const {user} = useUser();
   console.log(data)
+
+
   
 
   
@@ -38,8 +43,66 @@ return (<div >
   
   <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
   <div>
-  {data?.map((test) => (<div key={test.test.id}>{test.test.content}</div>))}
-    </div>
+    {data?.map((test) => (<div key={test.test.id}>{test.test.content}</div>))}
+  </div>
+
+  <input
+        placeholder="Content"
+        className="grow bg-grey outline-none"
+        type="text"
+        value= {input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (input !== "") {
+              mutate({ content: input });
+            }
+          }
+        }}
+        disabled={isPosting}
+        />
+        
+ <button onClick={() => mutate({content : input})} >Post</button>
+</div>
+</div> 
+);
+
+};
+
+
+
+
+const CreatePostWizard = () => {
+  const {data} = api.post.getAll.useQuery();
+  const {user} = useUser();
+  console.log(data)
+  
+
+  
+  const [input, setInput] = useState("");
+  
+const ctx = api.useContext();
+
+
+const {mutate, isLoading : isPosting} = api.post.create.useMutation({
+  onSuccess: () =>{
+  setInput("")
+  void ctx.post.getAll.invalidate()
+}
+}
+);
+
+
+if (!user) return null;
+
+
+
+return (<div >
+  
+  
+  <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
+  
   <input
         placeholder="Content"
         className="grow bg-transparent outline-none"
@@ -131,6 +194,7 @@ console
         </div>
         <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
         <CreatePostWizard />
+        <CreateTestWizard/>
         <Feed/>
       
         
