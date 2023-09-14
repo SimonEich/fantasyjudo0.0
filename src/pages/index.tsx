@@ -9,8 +9,6 @@ import { date } from "zod";
 import { RouterOutputs, api } from "~/utils/api";
 
 
-
-
 const CreateTestWizard = () => {
   const {data} = api.test.getAll.useQuery();
   const {user} = useUser();
@@ -41,11 +39,11 @@ if (!user) return null;
 return (<div >
   
   
-  <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
   <div>
     {data?.map((test) => (<div key={test.test.id}>{test.test.content}</div>))}
   </div>
 
+  <div>
   <input
         placeholder="Content"
         className="grow bg-grey outline-none"
@@ -61,13 +59,72 @@ return (<div >
           }
         }}
         disabled={isPosting}
-        />
+  />
+  </div>
         
  <button onClick={() => mutate({content : input})} >Post</button>
 </div>
-</div> 
 );
 
+};
+
+const CreateNameWizard = () => {
+  const {data} = api.name.getAll.useQuery();
+  const {user} = useUser();
+  console.log(data)
+
+
+  
+
+  
+  const [input, setInput] = useState("");
+  
+const ctx = api.useContext();
+
+
+const {mutate, isLoading : isPosting} = api.name.create.useMutation({
+  onSuccess: () =>{
+  setInput("")
+  void ctx.name.getAll.invalidate()
+}
+}
+);
+
+
+if (!user) return null;
+
+
+
+return (<div className="bg-sky-300	">
+  
+  
+  <div>
+    {data?.map((name) => (<div key={name.name.id}>{name.name.name}</div>))}
+  </div>
+
+  <div>
+  <input
+        placeholder="Content"
+        className="grow bg-grey outline-none"
+        type="text"
+        value= {input}
+        onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+            if (input !== "") {
+              mutate({ name: input });
+            }
+          }
+        }}
+        disabled={isPosting}
+  />
+  </div>
+        
+ <button onClick={() => mutate({name : input})} >Post</button>
+</div>
+);
+ 
 };
 
 
@@ -189,12 +246,10 @@ console
               <SignIn path="/sign-in" routing="path" signUpUrl="/sign-up" />
               </a>
         </div>
-        <div>
-          {data?.map((post) => (<div key={post.post.id}>{post.post.content}</div>))}
-        </div>
-        <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
+        <div className="">
         <CreatePostWizard />
         <CreateTestWizard/>
+        <CreateNameWizard/>
         <Feed/>
       
         
