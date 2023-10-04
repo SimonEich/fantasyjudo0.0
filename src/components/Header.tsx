@@ -15,6 +15,7 @@ export function Header (){
     <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl px-8 py-4 bg-slate-200">
             <span className="self-center text-2xl whitespace-nowrap dark:text-white">Fantasy Judo</span>
                 <div className="flex items-center">
+            <h1 className="font-bold mr-4">Hello {user.user?.firstName}</h1>
             <a href="#" className="text-sm  text-blue-600 dark:text-blue-500 hover:underline">
               {!user.isSignedIn && <SignInButton />}
               {!!user.isSignedIn && <UserButton /> }

@@ -5,6 +5,10 @@ import { Input } from "postcss";
 import { useState } from "react";
 import { date } from "zod";
 import { Header } from "~/components/Header";
+import { MyTeam } from "~/components/MyTeam";
+import { Navbar } from "~/components/Navbar";
+import { Rules } from "~/components/Rules";
+import { Start } from "~/components/Start";
 
 
 import { RouterOutputs, api } from "~/utils/api";
@@ -245,16 +249,16 @@ console
         <link rel="icon" href="/favicon.ico" />
       </Head>
           <Header/>
-      <main className="flex min-h-screen flex-col items-center justify-center">
-          <h1 className="font-bold">Hello {user.user?.firstName}</h1>
-        <div className="">
+          <div>
+       <nav className="bg-slate-400 dark:bg-gray-1200">
+        <div>
         {session.isSignedIn === true && (
           <div className="flex">
             {TABS.map((tab) => {
               return (
                 <button
                 key={tab}
-                className={`flex-grow p-2 hover:bg-gray-200 focus-visible:bg-gray-200 ${
+                className={`flex-grow p-2 hover:bg-slate-300 focus-visible:bg-gray-200 ${
                   tab === selectedTab
                   ? "border-b-4 border-b-blue-500 font-bold"
                   : ""
@@ -266,19 +270,27 @@ console
                 </button>
               );
             })}
-          </div>
-        )}
+            </div>)}
+            </div>
+            </nav>
+    </div>
+
+
+      <main className="flex min-h-screen flex-col items-center justify-center">
+        <div className="">
+        
+
 
         
-      {selectedTab === "Home" ? <CreateNameWizard /> :<div></div>}
+      {selectedTab === "Home" ? <Start /> :<div></div>}
+      {selectedTab === "Fantasy Judo Rules" ? <Rules /> : <div></div>}
+      {selectedTab === "View Leaderboard" ? <CreateTestWizard /> : <div></div>}
+      {selectedTab === "My Team" ? <MyTeam /> : <div></div>}
+
+      <CreatePostWizard /> 
 
 
-        {selectedTab === "Fantasy Judo Rules" ? <CreatePostWizard /> : <div></div>}
-        {selectedTab === "Team" ? <CreateTestWizard /> : <div></div>}
-        
-
-
-         <Feed/>
+        <Feed/>
       
         
         </div>
