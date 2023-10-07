@@ -4,11 +4,11 @@ import Link from "next/link";
 import { Input } from "postcss";
 import { useState } from "react";
 import { date } from "zod";
+import { CreateJoinLeagues } from "~/components/CreateJoinLeagues";
 import { Header } from "~/components/Header";
 import { MyTeam } from "~/components/MyTeam";
 import { Navbar } from "~/components/Navbar";
 import { Rules } from "~/components/Rules";
-import { Start } from "~/components/Start";
 
 
 import { RouterOutputs, api } from "~/utils/api";
@@ -72,6 +72,45 @@ return (<div >
 );
 
 };
+
+const Start = () => {
+  const user = useUser();
+  console.log(user)
+  const [input, setInput] = useState("");
+
+  const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
+
+
+  const [selectedTab, setSelectedTab] =
+  useState<(typeof TABS)[number]>("Home");
+
+
+
+  return ( <div>
+  
+
+
+          {TABS.map((prop) => {
+            return (
+              <div className="text-center"><button
+              key={prop}
+              className={`flex-grow w-80 text-lg p-2 m-8 bg-slate-400 rounded-full hover:bg-gray-200 focus-visible:bg-gray-200 ${
+                (prop === selectedTab && selectedTab !== "Home")
+                ? "border-b-4 border-b-blue-500 font-bold"
+                : "border-black bg-slate-100 "
+              }`}
+                onClick={() => setSelectedTab(prop)
+                }
+              >
+                {prop}
+              </button>
+              </div>
+            );
+          })}
+  
+  </div>)
+      };
+
 
 const CreateNameWizard = () => {
   const {data} = api.name.getAll.useQuery();
@@ -262,6 +301,7 @@ console
                   tab === selectedTab
                   ? "border-b-4 border-b-blue-500 font-bold"
                   : ""
+                  
                 }`}
                   onClick={() => setSelectedTab(tab)
                   }
@@ -283,14 +323,16 @@ console
 
         
       {selectedTab === "Home" ? <Start /> :<div></div>}
-      {selectedTab === "Fantasy Judo Rules" ? <Rules /> : <div></div>}
+      {selectedTab === "Fantasy Judo Rules" ? <><Rules /><Feed /><CreatePostWizard /> </>: <div></div>}
       {selectedTab === "View Leaderboard" ? <CreateTestWizard /> : <div></div>}
       {selectedTab === "My Team" ? <MyTeam /> : <div></div>}
+      {(selectedTab === "Create or Join a League" ) ? <CreateJoinLeagues/>: <div></div>}
 
-      <CreatePostWizard /> 
+
+      
 
 
-        <Feed/>
+        
       
         
         </div>

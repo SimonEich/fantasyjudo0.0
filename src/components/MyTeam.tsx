@@ -23,15 +23,20 @@ export function MyTeam (){
 
 
     return ( <div>
-       <nav className="bg-slate-400 dark:bg-gray-1200">
+       <nav className="bg-slate-400 dark:bg-gray-1200 rounded-lg">
         <div>
             {Team.map((tab) => {
               return (
-                <div className="flex w-80 m-3">
-                <h1 className="w-20">
+                <div className="flex w-120 m-3">
+                <h1 className="w-20 m-4 bg-slate-300 text-center rounded-full">
                   {tab}
                 </h1>
-                <input type="text" />
+                <div>                
+                <input className="m-2 rounded-full text-center" type="text" placeholder="Name"/>
+                <input className="m-2 rounded-full text-center" type="number" placeholder="Weight"/>
+                <input className="m-2 rounded-full text-center" type="text" placeholder="Country"/>
+                <button className="hover:bg-gray-100 m-2 p-2 rounded-full bg-slate-300  ">Choose</button>
+                </div>
                 </div>
               );
             })}

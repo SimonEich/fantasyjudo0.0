@@ -24,7 +24,7 @@ model Test {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   authorId  String
-  content      String
+  content   String
 
   @@index([authorId])
 }
