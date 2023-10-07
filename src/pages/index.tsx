@@ -1,13 +1,10 @@
-import { SignIn, SignInButton, SignOutButton, UserButton, useSession, useUser } from "@clerk/clerk-react";
+
+import { useSession, useUser } from "@clerk/clerk-react";
 import Head from "next/head";
-import Link from "next/link";
-import { Input } from "postcss";
 import { useState } from "react";
-import { date } from "zod";
 import { CreateJoinLeagues } from "~/components/CreateJoinLeagues";
 import { Header } from "~/components/Header";
 import { MyTeam } from "~/components/MyTeam";
-import { Navbar } from "~/components/Navbar";
 import { Rules } from "~/components/Rules";
 
 

@@ -1,6 +1,4 @@
-import { SignIn, SignInButton, SignOutButton, UserButton, useUser } from "@clerk/nextjs";
-import { ClerkProvider, SignUp } from "@clerk/nextjs";
-import { api } from "~/utils/api";
+import { SignIn, SignInButton, UserButton, useUser } from "@clerk/nextjs";
 
 
 
