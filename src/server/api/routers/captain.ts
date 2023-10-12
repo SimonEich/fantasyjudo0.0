@@ -14,20 +14,20 @@ const filterUserForClient = (user: User) =>{
     profilePicture: user.profileImageUrl,
 }}
 
-export const noteRouter = createTRPCRouter({
+export const captainRouter = createTRPCRouter({
     getAll: publicProcedure.query( async ({ ctx }) => {
-    const tests = await ctx.prisma.test.findMany({
+    const bets = await ctx.prisma.captain.findMany({
       take: 100,
     });
 
     const users = (await clerkClient.users.getUserList({
-      userId: tests.map((test) => test.authorId),
+      userId: bets.map((captain) => captain.authorId),
       limit: 100,
     })
     ).map(filterUserForClient);
 
-  return tests.map((test) => {
-    const author =  users.find((user) => user.id === test.authorId);
+  return bets.map((captain) => {
+    const author =  users.find((user) => user.id === captain.authorId);
     console.log(author)
 
     if (!author) 
@@ -39,7 +39,7 @@ export const noteRouter = createTRPCRouter({
 
 
     return {
-    test,
+    captain,
     author: {
       ...author,
       username: author.username,
@@ -53,8 +53,9 @@ export const noteRouter = createTRPCRouter({
   create: privateProcedure
   .input(
     z.object({
-      content: z.string().min(1).max(280),
-      test: z.string().min(1).max(280),
+        captain : z.string().min(1).max(280),
+        weight: z.number(),
+        country: z.string().min(1).max(280),
     
     })
   )
@@ -62,11 +63,12 @@ export const noteRouter = createTRPCRouter({
     const authorId = ctx.userId;
 
 
-    const test = await ctx.prisma.test.create({
+    const test = await ctx.prisma.captain.create({
       data: {
         authorId,
-        content : input.content,
-        test: input.test,
+        captain : input.captain,
+        weight: input.weight,
+        country: input.country,
       },
     });
     return test;

@@ -12,6 +12,10 @@ import { RouterOutputs, api } from "~/utils/api";
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
 
+
+
+
+
 const CreateTestWizard = () => {
   const {data} = api.test.getAll.useQuery();
   const {user} = useUser();
@@ -56,7 +60,10 @@ return (<div >
           if (e.key === "Enter") {
             e.preventDefault();
             if (input !== "") {
-              mutate({ content: input });
+              mutate({
+                content: input,
+                test: input
+              });
             }
           }
         }}
@@ -64,7 +71,10 @@ return (<div >
   />
   </div>
         
- <button onClick={() => mutate({content : input})} >Post</button>
+ <button onClick={() => mutate({
+   content: input,
+   test:input,
+ })} >Post</button>
 </div>
 );
 
@@ -211,7 +221,7 @@ return (<div >
           if (e.key === "Enter") {
             e.preventDefault();
             if (input !== "") {
-              mutate({ content: input });
+              mutate({ content : input });
             }
           }
         }}
@@ -326,12 +336,6 @@ console
       {(selectedTab === "Create or Join a League" ) ? <CreateJoinLeagues/>: <div></div>}
 
 
-      
-
-
-        
-      
-        
         </div>
         
 

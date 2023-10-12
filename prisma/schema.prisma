@@ -25,12 +25,21 @@ model Test {
   createdAt DateTime @default(now())
   authorId  String
   content   String
+  test  String
 
   @@index([authorId])
 }
 
 model Name {
-  id        String   @id @default(cuid())
-  authorId   String 
-  name String
+  id       String @id @default(cuid())
+  authorId String
+  name     String
+}
+
+model Captain {
+  id       String @id @default(cuid())
+  authorId String
+  captain     String
+  weight   Int
+  country  String
 }
