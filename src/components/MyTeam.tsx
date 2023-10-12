@@ -1,6 +1,6 @@
 import { useSession, useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { RouterOutputs, api } from "~/utils/api";
+import { api } from "~/utils/api";
 
 const Team = ["Captain", "1", "2", "3", "4", "5", "6", "7"] as const;
 
