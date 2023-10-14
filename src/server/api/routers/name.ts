@@ -5,7 +5,7 @@ import { z } from "zod";
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 
 
-const filterUserForClient = (user: { id: any; username: any; firstName: any; profileImageUrl: any; }) =>{
+const filterUserForClient = (user: { id: string|null; username: string|null; firstName: string|null; profileImageUrl: string|null; }) =>{
 
   return {
     id: user.id, 

@@ -281,9 +281,7 @@ export default function Home() {
     const session = useSession();
 
 
-  const user = useUser();
 
-  const { data } = api.post.getAll.useQuery();
 
 console
 
