@@ -2,6 +2,7 @@ import { useSession, useUser } from "@clerk/nextjs";
 import { useState } from "react";
 import { api } from "~/utils/api";
 
+
 const Team = ["Captain", "1", "2", "3", "4", "5", "6", "7"] as const;
 
 const input = "m-2 rounded-full text-center bg-white w-40"
