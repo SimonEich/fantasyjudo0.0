@@ -1,10 +1,11 @@
 import { clerkClient } from "@clerk/nextjs"
+import type { User } from "@clerk/nextjs/dist/api";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 
-const filterUserForClient = (user: { id: string|null; username: string|null; firstName: string|null; profileImageUrl: string|null; }) =>{
+const filterUserForClient = (user: User) =>{
 
   return {
     id: user.id, 
@@ -14,10 +15,25 @@ const filterUserForClient = (user: { id: string|null; username: string|null; fir
 }}
 
 export const captainRouter = createTRPCRouter({
+    delete: privateProcedure
+    .input(z.object({ id: z.string() }))
+    .mutation(async ({ ctx, input }) => {
+      return ctx.prisma.captain.delete({
+        where: {
+          id: input.id,
+        },
+      });
+    }),
+
+
     getAll: publicProcedure.query( async ({ ctx }) => {
+    const authorId = ctx.userId;
+
     const bets = await ctx.prisma.captain.findMany({
-      take: 100,
-    });
+        where: {
+            authorId : authorId,
+    },
+});
 
     const users = (await clerkClient.users.getUserList({
       userId: bets.map((captain) => captain.authorId),
@@ -70,6 +86,8 @@ export const captainRouter = createTRPCRouter({
         country: input.country,
       },
     });
+
+    
     return test;
   }),
 }); 

@@ -1,10 +1,11 @@
 import { clerkClient } from "@clerk/nextjs";
+import { User } from "@clerk/nextjs/dist/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
 
-const filterUserForClient = (user: { id: string|null; username: string|null; firstName: string|null; profileImageUrl: string|null; }) =>{
+const filterUserForClient = (user: User) =>{
 
   return {
     id: user.id, 

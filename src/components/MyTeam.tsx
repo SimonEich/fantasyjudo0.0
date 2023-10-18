@@ -1,5 +1,5 @@
 import { useSession, useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
 
@@ -10,9 +10,18 @@ const button = "hover:bg-gray-100 m-2 p-2 rounded-full bg-slate-300"
 
 
 
+const Table = () => {
+
+
+
+
+    
+}
+
 const CreateCaptainWizard = () => {
     const {data} = api.captain.getAll.useQuery();
     const {user} = useUser();
+    console.log(user)
     console.log(data)
     
   
@@ -126,28 +135,51 @@ const CreateCaptainWizard = () => {
 
 export function MyTeam (){
 
+    const [captain, setInputCaptain] = useState("");
+    const [weight, setInputWeight] = useState("");
+    const [country, setInputCoutry] = useState("");
+
+    function rerenderCaptain() {
+        
+    }
+
     const user = useUser();
     console.log(user)
 
     const [selectedTab, setSelectedTab] =
     useState<(typeof Team)[number]>("Captain");
 
-    const session = useSession();
+
 
 
 
   const { data } = api.captain.getAll.useQuery();
 
+  const deleteBet = api.captain.delete.useMutation({
+  });
+
+  const [betstable, setBets] = useState(0);
+ 
+
+  function handleRerender () {
+    setBets(betstable +1)
+    console.log("pressed"+ betstable)
+  }
+ 
 
 
 
     return ( <div>
-        <div>
+        <div key={betstable}>
             {data?.map((captain) => (
-                <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg"><div className="flex w-120 m-3" key={captain.captain.id}>
+                <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg" key={captain.captain.id}>
+                <div className="flex w-120 m-3">
                 <p className={input}>{captain.captain.captain}</p>
                 <p className={input}>{captain.captain.weight}</p>
                 <p className={input}>{captain.captain.country}</p>
+                <button className="btn-warning btn-xs btn px-5" onClick={() => void deleteBet.mutate({ id: captain.captain.id })}>
+                 Delete
+                </button>
                 </div>
                 </div>))}
         </div>
