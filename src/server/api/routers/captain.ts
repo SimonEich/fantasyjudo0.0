@@ -1,5 +1,5 @@
-import { clerkClient } from "@clerk/nextjs"
-import type { User } from "@clerk/nextjs/dist/api";
+import { auth, clerkClient } from "@clerk/nextjs"
+import { User } from "@clerk/nextjs/dist/types/server";
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
 
@@ -27,14 +27,15 @@ export const captainRouter = createTRPCRouter({
 
 
     getAll: publicProcedure.query( async ({ ctx }) => {
-    const authorId = ctx.userId;
+    const authorId : string | null = ctx.userId;
 
+    if (authorId){
     const bets = await ctx.prisma.captain.findMany({
         where: {
             authorId : authorId,
-    },
+    },  
 });
-
+    
     const users = (await clerkClient.users.getUserList({
       userId: bets.map((captain) => captain.authorId),
       limit: 100,
@@ -63,7 +64,7 @@ export const captainRouter = createTRPCRouter({
      },
     };
   });
-  }),
+}}),
 
   create: privateProcedure
   .input(
