@@ -1,6 +1,5 @@
 import { useSession, useUser } from "@clerk/nextjs";
 import { useState } from "react";
-import { api } from "~/utils/api";
 
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
@@ -15,9 +14,6 @@ export function Navbar (){
 
     const session = useSession();
 
-
-
-  const { data } = api.post.getAll.useQuery();
 
 
 

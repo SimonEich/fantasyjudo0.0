@@ -8,7 +8,6 @@ import { useState } from "react";
 export function Start (){
     const user = useUser();
     console.log(user)
-    const [input, setInput] = useState("");
 
     const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
@@ -46,13 +45,6 @@ export function Start (){
 export function Tab(){
     const user = useUser();
     console.log(user)
-    const [input, setInput] = useState("");
-
-    const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
-
-
-    const [selectedTab, setSelectedTab] =
-    useState<(typeof TABS)[number]>("Home");
 
 
 

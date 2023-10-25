@@ -1,5 +1,5 @@
-import { useSession, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
+import { useUser } from "@clerk/nextjs";
+import { useState } from "react";
 import { api } from "~/utils/api";
 
 
@@ -8,15 +8,6 @@ const Team = ["Captain", "1", "2", "3", "4", "5", "6", "7"] as const;
 const input = "m-2 rounded-full text-center bg-white w-40"
 const button = "hover:bg-gray-100 m-2 p-2 rounded-full bg-slate-300"
 
-
-
-const Table = () => {
-
-
-
-
-    
-}
 
 const CreateCaptainWizard = () => {
     const {data} = api.captain.getAll.useQuery();
@@ -135,19 +126,12 @@ const CreateCaptainWizard = () => {
 
 export function MyTeam (){
 
-    const [captain, setInputCaptain] = useState("");
-    const [weight, setInputWeight] = useState("");
-    const [country, setInputCoutry] = useState("");
 
-    function rerenderCaptain() {
-        
-    }
+   
 
     const user = useUser();
     console.log(user)
 
-    const [selectedTab, setSelectedTab] =
-    useState<(typeof Team)[number]>("Captain");
 
 
 
@@ -158,19 +142,12 @@ export function MyTeam (){
   const deleteBet = api.captain.delete.useMutation({
   });
 
-  const [betstable, setBets] = useState(0);
- 
 
-  function handleRerender () {
-    setBets(betstable +1)
-    console.log("pressed"+ betstable)
-  }
- 
 
 
 
     return ( <div>
-        <div key={betstable}>
+        <div>
             {data?.map((captain) => (
                 <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg" key={captain.captain.id}>
                 <div className="flex w-120 m-3">
