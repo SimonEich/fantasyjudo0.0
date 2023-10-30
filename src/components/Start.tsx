@@ -23,7 +23,7 @@ export function Start (){
 
             {TABS.map((tab) => {
               return (
-                <div className="text-center"><button
+                <div key={1} className="text-center"><button
                 key={tab}
                 className={`flex-grow w-80 text-lg p-2 m-8 bg-slate-400 rounded-full hover:bg-gray-200 focus-visible:bg-gray-200 ${
                   (tab === selectedTab && selectedTab !== "Home")

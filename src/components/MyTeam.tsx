@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 
 
@@ -120,46 +120,70 @@ const CreateCaptainWizard = () => {
   
   };
   
-  
-    
+   
 
 
 export function MyTeam (){
 
-
-   
+  
 
     const user = useUser();
     console.log(user)
 
 
+const [tabx, funcTab] = useState()
 
 
 
+  const { data, refetch : refetchTab} = api.captain.getAll.useQuery();
 
-  const { data } = api.captain.getAll.useQuery();
+  const deleteBet = api.captain.delete.useMutation({onSuccess: () => {
+    void refetchTab();
+  },});
 
-  const deleteBet = api.captain.delete.useMutation({
-  });
+ 
+
+    const [seed, setSeed] = useState(1);
+    const reset = () => {
+         setSeed(Math.random());
+     }
+    
+     const [captain, setInput1] = useState("");
+     const [weight, setInput2] = useState("");
+     const [country, setInput3] = useState("");
+   
+
+function del()
+
+
+
+  const  TableState = () => {
+  console.log("newload")
+  return(
+  <div onClick={reset}>
+    {data?.map((captain) => {
+        return (
+          <div key={seed}>
+        <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg" key={captain.captain.id}>
+        <div className="flex w-120 m-3">
+        <p className={input}>{captain.captain.captain}</p>
+        <p className={input}>{captain.captain.weight}</p>
+        <p className={input}>{captain.captain.country}</p>
+        <button className="btn-warning btn-xs btn px-5" onClick={() => void deleteBet.mutate({ id: captain.captain.id })}>
+         Delete
+        </button>
+        </div>
+        </div>
+        </div>)})}
+</div>)
+}
 
 
 
 
 
     return ( <div>
-        <div>
-            {data?.map((captain) => (
-                <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg" key={captain.captain.id}>
-                <div className="flex w-120 m-3">
-                <p className={input}>{captain.captain.captain}</p>
-                <p className={input}>{captain.captain.weight}</p>
-                <p className={input}>{captain.captain.country}</p>
-                <button className="btn-warning btn-xs btn px-5" onClick={() => void deleteBet.mutate({ id: captain.captain.id })}>
-                 Delete
-                </button>
-                </div>
-                </div>))}
-        </div>
+            <TableState key={seed}/>
             <CreateCaptainWizard/>
        <nav className="bg-slate-400 dark:bg-gray-1200 rounded-lg">
         <div>

@@ -1,6 +1,7 @@
-import { auth, clerkClient } from "@clerk/nextjs"
+import { clerkClient } from "@clerk/nextjs"
 import { User } from "@clerk/nextjs/dist/types/server";
 import { TRPCError } from "@trpc/server";
+import { test } from "node:test";
 import { z } from "zod";
 
 import { createTRPCRouter, privateProcedure, publicProcedure } from "~/server/api/trpc";
@@ -79,7 +80,7 @@ export const captainRouter = createTRPCRouter({
     const authorId = ctx.userId;
 
 
-    const test = await ctx.prisma.captain.create({
+    const captain = await ctx.prisma.captain.create({
       data: {
         authorId,
         captain : input.captain,
@@ -89,6 +90,6 @@ export const captainRouter = createTRPCRouter({
     });
 
     
-    return test;
+    return captain;
   }),
 }); 
