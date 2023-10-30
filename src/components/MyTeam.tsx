@@ -1,5 +1,5 @@
 import { useUser } from "@clerk/nextjs";
-import { SetStateAction, useEffect, useState } from "react";
+import { useState } from "react";
 import { api } from "~/utils/api";
 
 
@@ -131,8 +131,6 @@ export function MyTeam (){
     console.log(user)
 
 
-const [tabx, funcTab] = useState()
-
 
 
   const { data, refetch : refetchTab} = api.captain.getAll.useQuery();
@@ -148,12 +146,8 @@ const [tabx, funcTab] = useState()
          setSeed(Math.random());
      }
     
-     const [captain, setInput1] = useState("");
-     const [weight, setInput2] = useState("");
-     const [country, setInput3] = useState("");
    
 
-function del()
 
 
 
@@ -180,8 +174,6 @@ function del()
 
 
 
-
-
     return ( <div>
             <TableState key={seed}/>
             <CreateCaptainWizard/>
@@ -189,7 +181,7 @@ function del()
         <div>
             {Team.map((tab) => {
                 return (
-                    <div className="flex w-120 m-3">
+                    <div key={tab} className="flex w-120 m-3">
                 <h1 key={tab} className="w-20 m-4 bg-slate-300 text-center rounded-full">
                   {tab}
                 </h1>

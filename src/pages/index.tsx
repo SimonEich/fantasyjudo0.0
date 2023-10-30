@@ -7,8 +7,9 @@ import { Header } from "~/components/Header";
 import { MyTeam } from "~/components/MyTeam";
 import { Rules } from "~/components/Rules";
 
+import { api } from "~/utils/api";
+import type { RouterOutputs } from "~/utils/api";
 
-import { RouterOutputs, api } from "~/utils/api";
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
 
@@ -82,7 +83,6 @@ return (<div >
 const Start = () => {
   const user = useUser();
   console.log(user)
-  const [input, setInput] = useState("");
 
   const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
@@ -98,7 +98,7 @@ const Start = () => {
 
           {TABS.map((prop) => {
             return (
-              <div className="text-center"><button
+              <div key={prop} className="text-center"><button
               key={prop}
               className={`flex-grow w-80 text-lg p-2 m-8 bg-slate-400 rounded-full hover:bg-gray-200 focus-visible:bg-gray-200 ${
                 (prop === selectedTab && selectedTab !== "Home")
@@ -328,7 +328,7 @@ console
         
       {selectedTab === "Home" ? <Start /> :<div></div>}
       {selectedTab === "Fantasy Judo Rules" ? <><Rules /><Feed /><CreatePostWizard /> </>: <div></div>}
-      {selectedTab === "View Leaderboard" ? <CreateTestWizard /> : <div></div>}
+      {selectedTab === "View Leaderboard" ? <><CreateTestWizard /><CreateNameWizard /></> : <div></div>}
       {selectedTab === "My Team" ? <MyTeam /> : <div></div>}
       {(selectedTab === "Create or Join a League" ) ? <CreateJoinLeagues/>: <div></div>}
 
@@ -341,6 +341,4 @@ console
   );
 }
 
-function func() {
-  throw new Error("Function not implemented.");
-}
+
