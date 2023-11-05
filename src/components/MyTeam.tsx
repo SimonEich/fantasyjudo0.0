@@ -1,5 +1,7 @@
 import { useUser } from "@clerk/nextjs";
 import { useState } from "react";
+import { string } from "zod";
+import { prisma } from "~/server/db";
 import { api } from "~/utils/api";
 
 
@@ -125,10 +127,8 @@ const CreateCaptainWizard = () => {
 
 export function MyTeam (){
 
-  
 
     const user = useUser();
-    console.log(user)
 
 
 
@@ -146,9 +146,7 @@ export function MyTeam (){
          setSeed(Math.random());
      }
     
-   
-
-
+  
 
 
   const  TableState = () => {
@@ -177,26 +175,27 @@ export function MyTeam (){
     return ( <div>
             <TableState key={seed}/>
             <CreateCaptainWizard/>
-       <nav className="bg-slate-400 dark:bg-gray-1200 rounded-lg">
-        <div>
-            {Team.map((tab) => {
-                return (
-                    <div key={tab} className="flex w-120 m-3">
-                <h1 key={tab} className="w-20 m-4 bg-slate-300 text-center rounded-full">
-                  {tab}
-                </h1>
-                <div>                
-                <input className={input} type="text" placeholder="Name"/>
-                <input className={input} type="number" placeholder="Weight"/>
-                <input className={input} type="text" placeholder="Country"/>
-                <button className="hover:bg-gray-100 m-2 p-2 rounded-full bg-slate-300">Choose</button>
-                </div>
-                </div>
-              );
-            })}
-            
-            </div>
-            </nav>
     </div> )
 }
+
+//<nav className="bg-slate-400 dark:bg-gray-1200 rounded-lg">
+//<div>
+//    {Team.map((tab) => {
+//        return (
+//            <div key={tab} className="flex w-120 m-3">
+//        <h1 key={tab} className="w-20 m-4 bg-slate-300 text-center rounded-full">
+//          {tab}
+//        </h1>
+//        <div>                
+//        <input className={input} type="text" placeholder="Name"/>
+//        <input className={input} type="number" placeholder="Weight"/>
+//        <input className={input} type="text" placeholder="Country"/>
+//        <button className="hover:bg-gray-100 m-2 p-2 rounded-full bg-slate-300">Choose</button>
+//        </div>
+//       </div>
+//      );
+//    })}
+//    
+//    </div>
+//    </nav>
 

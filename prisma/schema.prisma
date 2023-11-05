@@ -38,8 +38,8 @@ model Name {
 
 model Captain {
   id       String @id @default(cuid())
-  authorId String
-  captain     String
+  authorId String @unique
+  captain  String
   weight   Int
   country  String
 }

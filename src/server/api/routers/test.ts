@@ -17,7 +17,7 @@ const filterUserForClient = (user: User) =>{
 export const noteRouter = createTRPCRouter({
     getAll: publicProcedure.query( async ({ ctx }) => {
     const tests = await ctx.prisma.test.findMany({
-      take: 100,
+      take: 3,
     });
 
     const users = (await clerkClient.users.getUserList({

@@ -25,12 +25,24 @@ export const captainRouter = createTRPCRouter({
       });
     }),
 
+    getOne: publicProcedure.query(async({ctx})=>{
+      const authorId : string | null = ctx.userId;
+
+      const one = await ctx.prisma.captain.findMany({
+        take: 1,
+        })
+      
+    return one
+    }),
+     
+
 
     getAll: publicProcedure.query( async ({ ctx }) => {
     const authorId : string | null = ctx.userId;
 
     if (authorId){
     const bets = await ctx.prisma.captain.findMany({
+      take: 1,
         where: {
             authorId : authorId,
     },  
@@ -66,6 +78,8 @@ export const captainRouter = createTRPCRouter({
   });
 }}),
 
+
+  
   create: privateProcedure
   .input(
     z.object({
@@ -77,7 +91,19 @@ export const captainRouter = createTRPCRouter({
   )
   .mutation(async ({ ctx, input }) => {
     const authorId = ctx.userId;
+    
+    const currentPostCount = await ctx.prisma.captain.count({
+      where: {
+        authorId: authorId,
+      },
+    })
 
+    if (currentPostCount >= 3) {
+      console.log("max posts")
+      throw new Error(`User ${authorId} has reached maximum posts}`)
+    }else{
+      
+    }
 
     const captain = await ctx.prisma.captain.create({
       data: {
