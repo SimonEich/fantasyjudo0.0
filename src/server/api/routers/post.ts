@@ -17,7 +17,7 @@ const filterUserForClient = (user: User) =>{
 export const postsRouter = createTRPCRouter({
     getAll: publicProcedure.query( async ({ ctx }) => {
     const posts = await ctx.prisma.post.findMany({
-      take: 3,
+      take: 5,
     });
 
     const users = (await clerkClient.users.getUserList({
@@ -60,12 +60,28 @@ export const postsRouter = createTRPCRouter({
     const authorId = ctx.userId;
 
 
-    const post = await ctx.prisma.post.create({
-      data: {
-        authorId,
-        content : input.content,
-      },
-    });
-    return post;
+    
+
+    const currentPostCount = await ctx.prisma.post.count()
+
+    if (currentPostCount<3){
+      const post = await ctx.prisma.post.create({
+        data: {
+          authorId,
+          content : input.content,
+        },
+      });
+      return post
+
+    }else{
+      const post = await ctx.prisma.post.create({
+        data: {
+          authorId,
+          content : "too many post",
+        },
+      });
+      return post
+
+    }
   }),
 }); 

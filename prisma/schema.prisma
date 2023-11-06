@@ -43,3 +43,13 @@ model Captain {
   weight   Int
   country  String
 }
+
+model Team {
+  id       String @id @default(cuid())
+  authorId String @unique
+  captain  String
+  weight   Int
+  country  String
+}
+
+

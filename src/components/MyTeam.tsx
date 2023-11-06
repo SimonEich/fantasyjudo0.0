@@ -131,8 +131,6 @@ export function MyTeam (){
     const user = useUser();
 
 
-
-
   const { data, refetch : refetchTab} = api.captain.getAll.useQuery();
 
   const deleteBet = api.captain.delete.useMutation({onSuccess: () => {
@@ -170,11 +168,26 @@ export function MyTeam (){
 </div>)
 }
 
+const [index, setIndex] = useState()
+
 
 
     return ( <div>
-            <TableState key={seed}/>
+
+        {Team.map((tab) => {
+        return (
+            <div key={tab} className="flex w-120 m-3">
+        <h1 key={tab} className="w-20 m-4 bg-slate-300 text-center rounded-full">
+          {tab}
+        </h1>
+        <div>                
+            <TableState key={tab}/>
             <CreateCaptainWizard/>
+        </div>
+       </div>
+      );
+    })}
+            
     </div> )
 }
 
