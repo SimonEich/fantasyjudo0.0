@@ -14,11 +14,11 @@ const filterUserForClient = (user: User) =>{
     profilePicture: user.profileImageUrl,
 }}
 
-export const captainRouter = createTRPCRouter({
+export const teamRouter = createTRPCRouter({
     delete: privateProcedure
     .input(z.object({ id: z.string() }))
     .mutation(async ({ ctx, input }) => {
-      return ctx.prisma.captain.delete({
+      return ctx.prisma.team.delete({
         where: {
           id: input.id,
         },
@@ -28,7 +28,7 @@ export const captainRouter = createTRPCRouter({
     getOne: publicProcedure.query(async({ctx})=>{
       const authorId : string | null = ctx.userId;
 
-      const one = await ctx.prisma.captain.findMany({
+      const one = await ctx.prisma.team.findMany({
         take: 1,
         })
       
@@ -41,21 +41,20 @@ export const captainRouter = createTRPCRouter({
     const authorId : string | null = ctx.userId;
 
     if (authorId){
-    const bets = await ctx.prisma.captain.findMany({
-      take: 1,
+    const bets = await ctx.prisma.team.findMany({
         where: {
             authorId : authorId,
     },  
 });
     
     const users = (await clerkClient.users.getUserList({
-      userId: bets.map((captain) => captain.authorId),
+      userId: bets.map((team) => team.authorId),
       limit: 100,
     })
     ).map(filterUserForClient);
 
-  return bets.map((captain) => {
-    const author =  users.find((user) => user.id === captain.authorId);
+  return bets.map((team) => {
+    const author =  users.find((user) => user.id === team.authorId);
     console.log(author)
 
     if (!author) 
@@ -67,7 +66,7 @@ export const captainRouter = createTRPCRouter({
 
 
     return {
-    captain,
+    team,
     author: {
       ...author,
       username: author.username,
@@ -83,16 +82,15 @@ export const captainRouter = createTRPCRouter({
   create: privateProcedure
   .input(
     z.object({
-        captain : z.string().min(1).max(280),
+        player: z.string().min(1).max(280),
         weight: z.number(),
-        country: z.string().min(1).max(280),
-    
+        country: z.string().min(1).max(280),    
     })
   )
   .mutation(async ({ ctx, input }) => {
     const authorId = ctx.userId;
     
-    const currentPostCount = await ctx.prisma.captain.count({
+    const currentPostCount = await ctx.prisma.team.count({
       where: {
         authorId: authorId,
       },
@@ -105,16 +103,17 @@ export const captainRouter = createTRPCRouter({
       
     }
 
-    const captain = await ctx.prisma.captain.create({
+    const team = await ctx.prisma.team.create({
       data: {
         authorId,
-        captain : input.captain,
+        player : input.player,
         weight: input.weight,
         country: input.country,
+
       },
     });
 
 
-    return captain;
+    return team;
   }),
 }); 

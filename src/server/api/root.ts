@@ -3,6 +3,7 @@ import { postsRouter } from "./routers/post";
 import { noteRouter } from "./routers/test";
 import { nameRouter } from "./routers/name";
 import { captainRouter } from "./routers/captain";
+import { teamRouter } from "./routers/team";
 
 /**
  * This is the primary router for your server.
@@ -14,6 +15,7 @@ export const appRouter = createTRPCRouter({
   test: noteRouter,
   name: nameRouter,
   captain: captainRouter,
+  team: teamRouter,
 });
 
 // export type definition of API

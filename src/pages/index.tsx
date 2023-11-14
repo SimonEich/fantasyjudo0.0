@@ -6,9 +6,13 @@ import { CreateJoinLeagues } from "~/components/CreateJoinLeagues";
 import { Header } from "~/components/Header";
 import { MyTeam } from "~/components/MyTeam";
 import { Rules } from "~/components/Rules";
+import MediaQuery from 'react-responsive'
+
+import { AiFillHome } from 'react-icons/ai';
 
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
+ 
 
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
 
@@ -334,7 +338,19 @@ console
 
 
         </div>
-        
+        <div>
+    <h1>Device Test!</h1>
+    <MediaQuery minWidth={120} maxWidth={121}>
+      <p>You are a desktop or laptop</p>
+      </MediaQuery>
+      <MediaQuery minWidth={122}>
+        <p>You also have a huge screen</p>
+      </MediaQuery>
+    <MediaQuery minResolution="2dppx">
+      
+  
+    </MediaQuery>
+  </div>
 
       </main>
     </>
