@@ -25,7 +25,7 @@ model Test {
   createdAt DateTime @default(now())
   authorId  String
   content   String
-  test  String
+  test      String
 
   @@index([authorId])
 }
@@ -33,7 +33,7 @@ model Test {
 model Name {
   id       String @id @default(cuid())
   authorId String
-  name     String
+  name     String @unique
 }
 
 model Captain {
@@ -46,10 +46,26 @@ model Captain {
 
 model Team {
   id       String @id @default(cuid())
-  authorId String 
-  player  String
+  authorId String
+  player   String
   weight   Int
   country  String
 }
 
+model timeEnd {
+  id      String   @id @default(cuid())
+  now     DateTime @default(now())
+  day     Int
+  month   Int
+  year    Int
+  hour    Int
+  minutes Int
+}
 
+model winner {
+  id      String   @id @default(cuid())
+  now     DateTime @default(now())
+  player  String   @unique
+  weight  String
+  country String
+}

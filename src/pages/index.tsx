@@ -8,13 +8,25 @@ import { MyTeam } from "~/components/MyTeam";
 import { Rules } from "~/components/Rules";
 import MediaQuery from 'react-responsive'
 
+
+import { FaBookOpen } from "react-icons/fa";
+import { RiTeamFill } from "react-icons/ri";
+import { IoCreate } from "react-icons/io5";
+import { MdLeaderboard } from "react-icons/md";
+
+
+
+
+
 import { AiFillHome } from 'react-icons/ai';
 
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
+import { Tab } from "~/components/Start";
  
 
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
+const TABSsm = [<AiFillHome key="Home"/>,<FaBookOpen key="Fantasy Judo Rules"/>, <RiTeamFill key="My Team"/>, <IoCreate key="Create or Join a League"/>, <MdLeaderboard key="View Leaderboard"/>]
 
 
 
@@ -281,12 +293,13 @@ export default function Home() {
   const [selectedTab, setSelectedTab] =
     useState<(typeof TABS)[number]>("Home");
 
+    const [selectedTabsm, setSelectedTabsm] =
+    useState<(typeof TABSsm)[number]>(<AiFillHome/>
+);
+
     const session = useSession();
 
 
-
-
-console
 
   return (
     <>
@@ -298,6 +311,35 @@ console
           <Header/>
           <div>
        <nav className="bg-slate-400 dark:bg-gray-1200">
+       
+       <MediaQuery maxWidth={480}>
+        <div>
+        {session.isSignedIn === true&& (
+          <div className="flex">
+            {TABSsm.map((tab) => {
+              return (
+                <button
+                key={tab}
+                className={`flex-grow p-2 hover:bg-slate-300 focus-visible:bg-gray-200 ${
+                  tab === selectedTabsm
+                  ? "border-b-4 border-b-blue-500 font-bold"
+                  : ""
+                  
+                }`}
+                  onClick={() => setSelectedTabsm(tab)
+                  }
+                >
+                  {tab}
+                </button>
+              );
+            })}
+            </div>)}
+            </div>
+            </MediaQuery>
+
+
+
+       <MediaQuery minWidth={481}>
         <div>
         {session.isSignedIn === true && (
           <div className="flex">
@@ -305,7 +347,7 @@ console
               return (
                 <button
                 key={tab}
-                className={`flex-grow p-2 hover:bg-slate-300 focus-visible:bg-gray-200 ${
+                className={`flex-grow place-content-center p-2 hover:bg-slate-300 focus-visible:bg-gray-200 ${
                   tab === selectedTab
                   ? "border-b-4 border-b-blue-500 font-bold"
                   : ""
@@ -320,38 +362,25 @@ console
             })}
             </div>)}
             </div>
+            </MediaQuery>
             </nav>
     </div>
+    
 
 
       <main className="flex min-h-screen flex-col items-center justify-center">
-        <div className="">
+
+
+      <div className="">
         
-
-
-        
-      {selectedTab === "Home" ? <Start /> :<div></div>}
-      {selectedTab === "Fantasy Judo Rules" ? <><Rules /><Feed /><CreatePostWizard /> </>: <div></div>}
-      {selectedTab === "View Leaderboard" ? <><CreateTestWizard /><CreateNameWizard /></> : <div></div>}
-      {selectedTab === "My Team" ? <MyTeam /> : <div></div>}
-      {(selectedTab === "Create or Join a League" ) ? <CreateJoinLeagues/>: <div></div>}
-
+      
+      {(selectedTab === "Home"                    || selectedTabsm.key === "Home")                    ? <Start /> :<div></div>                                     }
+      {(selectedTab === "Fantasy Judo Rules"      || selectedTabsm.key === "Fantasy Judo Rules")      ? <><Rules /><Feed /><CreatePostWizard /> </>: <div></div>   }
+      {(selectedTab === "View Leaderboard"        || selectedTabsm.key === "View Leaderboard")        ? <><CreateTestWizard /><CreateNameWizard /></> : <div></div>}
+      {(selectedTab === "My Team"                 || selectedTabsm.key === "My Team")                 ? <MyTeam /> : <div></div>                                   }
+      {(selectedTab === "Create or Join a League" || selectedTabsm.key === "Create or Join a League") ? <CreateJoinLeagues/>: <div></div>                          }
 
         </div>
-        <div>
-    <h1>Device Test!</h1>
-    <MediaQuery minWidth={120} maxWidth={121}>
-      <p>You are a desktop or laptop</p>
-      </MediaQuery>
-      <MediaQuery minWidth={122}>
-        <p>You also have a huge screen</p>
-      </MediaQuery>
-    <MediaQuery minResolution="2dppx">
-      
-  
-    </MediaQuery>
-  </div>
-
       </main>
     </>
   );
