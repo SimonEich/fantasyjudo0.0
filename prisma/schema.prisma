@@ -47,25 +47,28 @@ model Captain {
 model Team {
   id       String @id @default(cuid())
   authorId String
+  user     String
   player   String
   weight   Int
   country  String
 }
 
-model timeEnd {
-  id      String   @id @default(cuid())
-  now     DateTime @default(now())
-  day     Int
-  month   Int
-  year    Int
-  hour    Int
-  minutes Int
+model TimeEnd {
+  id              String   @id @default(cuid())
+  now             DateTime @default(now())
+  day             Int
+  month           Int
+  year            Int
+  hour            Int
+  competitionName String   @unique
 }
 
-model winner {
-  id      String   @id @default(cuid())
-  now     DateTime @default(now())
-  player  String   @unique
-  weight  String
-  country String
+model Winner {
+  id       String   @id @default(cuid())
+  now      DateTime @default(now())
+  authorId String
+  player   String
+  weight   Int      @unique
+  rank     Int
+  country  String
 }

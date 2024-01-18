@@ -24,7 +24,7 @@ return(
 <div>
   {data?.map((team) => {
       return (
-        <div>
+        <div key={team.team.id}>
       <div className="bg-slate-600 dark:bg-gray-1200 rounded-lg" key={team.team.id}>
       <div className="flex w-120 m-3">
       <p className={input}>{team.team.player}</p>

@@ -2,7 +2,7 @@
 import { useSession, useUser } from "@clerk/clerk-react";
 import Head from "next/head";
 import { useState } from "react";
-import { CreateJoinLeagues } from "~/components/CreateJoinLeagues";
+import { Leaderboard } from "~/components/Leaderboard";
 import { Header } from "~/components/Header";
 import { MyTeam } from "~/components/MyTeam";
 import { Rules } from "~/components/Rules";
@@ -22,7 +22,8 @@ import { AiFillHome } from 'react-icons/ai';
 
 import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
-import { Tab } from "~/components/Start";
+import { Admin } from "~/components/Admin";
+//import { Tab } from "~/components/Start";
  
 
 const TABS = ["Home", "Fantasy Judo Rules", "My Team" , "Create or Join a League", "View Leaderboard"] as const;
@@ -30,71 +31,6 @@ const TABSsm = [<AiFillHome key="Home"/>,<FaBookOpen key="Fantasy Judo Rules"/>,
 
 
 
-
-
-const CreateTestWizard = () => {
-  const {data} = api.test.getAll.useQuery();
-  const {user} = useUser();
-  console.log(data)
-
-
-  
-
-  
-  const [input, setInput] = useState("");
-  
-const ctx = api.useContext();
-
-
-const {mutate, isLoading : isPosting} = api.test.create.useMutation({
-  onSuccess: () =>{
-  setInput("")
-  void ctx.test.getAll.invalidate()
-}
-}
-);
-
-
-if (!user) return null;
-
-
-
-return (<div >
-  
-  <div>
-    {data?.map((test) => (<div key={test.test.id}>{test.test.content}</div>))}
-  </div>
-
-  <div>
-  <input
-        placeholder="Content"
-        className="grow bg-grey outline-none"
-        type="text"
-        value= {input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            if (input !== "") {
-              mutate({
-                content: input,
-                test: input
-              });
-            }
-          }
-        }}
-        disabled={isPosting}
-  />
-  </div>
-        
- <button onClick={() => mutate({
-   content: input,
-   test:input,
- })} >Post</button>
-</div>
-);
-
-};
 
 const Start = () => {
   const user = useUser();
@@ -110,8 +46,6 @@ const Start = () => {
 
   return ( <div>
   
-
-
           {TABS.map((prop) => {
             return (
               <div key={prop} className="text-center"><button
@@ -134,72 +68,10 @@ const Start = () => {
       };
 
 
-const CreateNameWizard = () => {
-  const {data} = api.name.getAll.useQuery();
-  const {user} = useUser();
-  console.log(data)
-
-
-  
-
-  
-  const [input, setInput] = useState("");
-  
-const ctx = api.useContext();
-
-
-const {mutate, isLoading : isPosting} = api.name.create.useMutation({
-  onSuccess: () =>{
-  setInput("")
-  void ctx.name.getAll.invalidate()
-}
-}
-);
-
-
-if (!user) return null;
-
-
-
-return (<div className="bg-sky-300	">
-  
-  
-  <div>
-    {data?.map((name) => (<div key={name.name.id}>{name.name.name}</div>))}
-  </div>
-
-  <div>
-  <input
-        placeholder="Content"
-        className="grow bg-grey outline-none"
-        type="text"
-        value= {input}
-        onChange={(e) => setInput(e.target.value)}
-        onKeyDown={(e) => {
-          if (e.key === "Enter") {
-            e.preventDefault();
-            if (input !== "") {
-              mutate({ name: input });
-            }
-          }
-        }}
-        disabled={isPosting}
-  />
-  </div>
-        
- <button onClick={() => mutate({name : input})} >Post</button>
-</div>
-);
- 
-};
-
-
 
 
 const CreatePostWizard = () => {
-  const {data} = api.post.getAll.useQuery();
   const {user} = useUser();
-  console.log(data)
   
 
   
@@ -289,6 +161,9 @@ const Feed = () => {
 
 
 export default function Home() {
+  const {user} = useUser();
+  console.log(user?.id)
+
 
   const [selectedTab, setSelectedTab] =
     useState<(typeof TABS)[number]>("Home");
@@ -298,8 +173,8 @@ export default function Home() {
 );
 
     const session = useSession();
-
-
+  const tabs = void selectedTabsm.key 
+  console.log(tabs)
 
   return (
     <>
@@ -311,7 +186,7 @@ export default function Home() {
           <Header/>
           <div>
        <nav className="bg-slate-400 dark:bg-gray-1200">
-       
+       <div>
        <MediaQuery maxWidth={480}>
         <div>
         {session.isSignedIn === true&& (
@@ -336,10 +211,11 @@ export default function Home() {
             </div>)}
             </div>
             </MediaQuery>
+            </div>
 
 
 
-       <MediaQuery minWidth={481}>
+       {/*<MediaQuery minWidth={481}>*/}
         <div>
         {session.isSignedIn === true && (
           <div className="flex">
@@ -362,24 +238,22 @@ export default function Home() {
             })}
             </div>)}
             </div>
-            </MediaQuery>
+           {/* </MediaQuery>*/}
             </nav>
     </div>
     
 
 
       <main className="flex min-h-screen flex-col items-center justify-center">
-
+    
+      <div>{user?.id === "user_2Wl222xbsT9joVm2ZzORl5i3AL2" ? <Admin/>: <div></div>}</div>
 
       <div className="">
-        
-      
       {(selectedTab === "Home"                    || selectedTabsm.key === "Home")                    ? <Start /> :<div></div>                                     }
       {(selectedTab === "Fantasy Judo Rules"      || selectedTabsm.key === "Fantasy Judo Rules")      ? <><Rules /><Feed /><CreatePostWizard /> </>: <div></div>   }
-      {(selectedTab === "View Leaderboard"        || selectedTabsm.key === "View Leaderboard")        ? <><CreateTestWizard /><CreateNameWizard /></> : <div></div>}
+      {(selectedTab === "View Leaderboard"        || selectedTabsm.key === "View Leaderboard")        ? <Leaderboard/> : <div></div>}
       {(selectedTab === "My Team"                 || selectedTabsm.key === "My Team")                 ? <MyTeam /> : <div></div>                                   }
-      {(selectedTab === "Create or Join a League" || selectedTabsm.key === "Create or Join a League") ? <CreateJoinLeagues/>: <div></div>                          }
-
+      {(selectedTab === "Create or Join a League" || selectedTabsm.key === "Create or Join a League") ? <p>soon available</p>: <div></div>                          }
         </div>
       </main>
     </>
