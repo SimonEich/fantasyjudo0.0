@@ -11,24 +11,6 @@ generator client {
   provider = "prisma-client-js"
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  authorId  String
-  content   String
-
-  @@index([authorId])
-}
-
-model Test {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  authorId  String
-  content   String
-  test      String
-
-  @@index([authorId])
-}
 
 model Name {
   id       String @id @default(cuid())
@@ -36,13 +18,6 @@ model Name {
   name     String @unique
 }
 
-model Captain {
-  id       String @id @default(cuid())
-  authorId String @unique
-  captain  String
-  weight   Int
-  country  String
-}
 
 model Team {
   id       String @id @default(cuid())
@@ -51,16 +26,6 @@ model Team {
   player   String
   weight   Int
   country  String
-}
-
-model TimeEnd {
-  id              String   @id @default(cuid())
-  now             DateTime @default(now())
-  day             Int
-  month           Int
-  year            Int
-  hour            Int
-  competitionName String   @unique
 }
 
 model Winner {

@@ -1,10 +1,6 @@
 import { createTRPCRouter } from "~/server/api/trpc";
-import { postsRouter } from "./routers/post";
-import { noteRouter } from "./routers/test";
 import { nameRouter } from "./routers/name";
-import { captainRouter } from "./routers/captain";
 import { teamRouter } from "./routers/team";
-import { timeendRouter } from "./routers/timeend";
 import { winnerRouter } from "./routers/winner";
 
 /**
@@ -13,12 +9,8 @@ import { winnerRouter } from "./routers/winner";
  * All routers added in /api/routers should be manually added here.
  */
 export const appRouter = createTRPCRouter({
-  post: postsRouter,
-  test: noteRouter,
   name: nameRouter,
-  captain: captainRouter,
   team: teamRouter,
-  time: timeendRouter,
   winner: winnerRouter,
 });
 
