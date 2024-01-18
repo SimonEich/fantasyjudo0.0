@@ -17,7 +17,7 @@ export function Navbar (){
 
 
 
-    return ( <div>
+   return ( <div>
        <nav className="bg-slate-400 dark:bg-gray-1200">
         <div>
         {session.isSignedIn === true && (

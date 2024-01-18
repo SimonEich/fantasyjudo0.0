@@ -22,7 +22,6 @@ model Name {
 model Team {
   id       String @id @default(cuid())
   authorId String
-  user     String
   player   String
   weight   Int
   country  String
