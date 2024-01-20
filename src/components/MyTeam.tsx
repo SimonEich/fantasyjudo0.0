@@ -39,40 +39,26 @@ return(
 </div>)
 }
 
-
-const  TableCaptainState = () => {
-
+const  TableNameState = () => {
 
 
-  const { data, refetch : refetchTab} = api.captain.getAll.useQuery();
-
-  const deleteBet = api.captain.delete.useMutation({onSuccess: () => {
-    void refetchTab();
-  },});
+  const { data, refetch : refetchTab} = api.name.getAll.useQuery();
+  
 
  
-
- 
-  console.log("newload")
-  return(
-  <div>
-    {data?.map((captain) => {
-        return (
-          <div>
-        <div className="bg-slate-400 dark:bg-gray-1200 rounded-lg" key={captain.captain.id}>
-        <div className="flex w-120 m-3">
-        <p className={input}>{captain.captain.captain}</p>
-        <p className={input}>{captain.captain.weight}</p>
-        <p className={input}>{captain.captain.country}</p>
-        <button className="btn-warning btn-xs btn px-5" onClick={() => void deleteBet.mutate({ id: captain.captain.id })}>
-         Delete
-        </button>
-        </div>
-        </div>
-        </div>)})}
+return(
+<div>
+  {data?.map((name) => {
+      return (
+        <div key={name.name.id}>
+      <div className="bg-slate-600 dark:bg-gray-1200 rounded-lg" key={name.name.id}>
+      <div className="flex w-120 m-3">
+      <p className={input}>{name.name.name}</p>
+      </div>
+      </div>
+      </div>)})}
 </div>)
 }
-
 
 
 
@@ -266,7 +252,7 @@ export function MyTeam (){
         <h1 className="w-20 m-4 bg-slate-300 text-center rounded-full">
         </h1>
         <div>
-            <TableCaptainState/>
+            <TableNameState/>
             <CreateCaptainWizard/>
             <TableTeamState/>
             <CreateTeamWizard/>
