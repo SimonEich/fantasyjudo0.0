@@ -187,28 +187,26 @@ return (<div >
 
 
 const CreateCaptainWizard = () => {
-    const {data} = api.captain.getAll.useQuery();
+    const {data} = api.name.getAll.useQuery();
     const {user} = useUser();
     console.log(user)
     console.log(data)
     
   
     
-    const [captain, setInput1] = useState("");
-    const [weight, setInput2] = useState("");
-    const [country, setInput3] = useState("");
+    const [name, setInput1] = useState("");
   
     
   const ctx = api.useContext();
   
   
-  const {mutate, isLoading : isPosting} = api.captain.create.useMutation({
+  const {mutate, isLoading : isPosting} = api.name.create.useMutation({
     onSuccess: () =>{
     setInput1("")
     setInput2("")
     setInput3("")
   
-    void ctx.captain.getAll.invalidate()
+    void ctx.name.getAll.invalidate()
   }
   }
   );
@@ -224,59 +222,17 @@ const CreateCaptainWizard = () => {
     <div className="flex justify-between items-center mx-auto max-w-screen-xl p-4 bg-slate-200">
     
     <input
-          placeholder="Captain"
+          placeholder="Name"
           className={input}
           type="text"
-          value= {captain}
+          value= {name}
           onChange={(e) => setInput1(e.target.value)}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
-              if (captain !== "") {
+              if (name !== "") {
                 mutate({
-                  captain: captain,
-                  weight: Number(weight),
-                  country: country,
-                });
-              }
-            }
-          }}
-          disabled={isPosting}
-          />
-     <input
-          placeholder="Weight"
-          className={input}
-          type="number"
-          value= {weight}
-          onChange={(e) => setInput2(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              if (weight !== "") {
-                mutate({
-                  captain: captain,
-                  weight: Number(weight),
-                  country: country,
-                });
-              }
-            }
-          }}
-          disabled={isPosting}
-          />
-         <input
-          placeholder="Country"
-          className={input}
-          type="text"
-          value= {country}
-          onChange={(e) => setInput3(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              if (country !== "") {
-                mutate({
-                  captain: captain,
-                  weight: Number(weight),
-                  country: country,
+                  name: name,
                 });
               }
             }
@@ -285,11 +241,9 @@ const CreateCaptainWizard = () => {
           />
           
    <button className={button} onClick={() => {
-    if (country !== "" && weight !== "" && country !== "")
+    if (name !== "")
     mutate({
-     captain: captain,
-     weight: Number(weight),
-     country: country,
+     name: name,
    })}} >Post</button>
   </div>
   </div> 
