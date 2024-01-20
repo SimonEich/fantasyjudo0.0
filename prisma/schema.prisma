@@ -14,8 +14,10 @@ generator client {
 
 model Name {
   id       String @id @default(cuid())
-  authorId String
+  authorId String 
   name     String @unique
+  posts    Team[]
+
 }
 
 
@@ -25,6 +27,11 @@ model Team {
   player   String
   weight   Int
   country  String
+  author   Name    @relation(fields: [user], references: [id])
+  user     String
+
+  @@index([user])
+
 }
 
 model Winner {
