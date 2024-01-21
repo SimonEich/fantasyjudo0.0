@@ -49,7 +49,13 @@ export const nameRouter = createTRPCRouter({
   .mutation(async ({ ctx, input }) => {
     const authorId = ctx.userId ;
 
+    const currentPostCount = await ctx.prisma.winner.count({
+      where: {
+        authorId: authorId,
+      },
+    })
 
+   if (currentPostCount <= 1) {
     const name = await ctx.prisma.name.create({
       data: {
         authorId,
@@ -57,7 +63,7 @@ export const nameRouter = createTRPCRouter({
       },
     });
 
-
+  }
 
     return name;
   }),
